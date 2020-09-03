@@ -36,6 +36,8 @@ public:
   void stop();
   bool isRunning();
 
+  int anyConnections();
+
   void loop();
 
   void setDefaultHeader(std::string name, std::string value);

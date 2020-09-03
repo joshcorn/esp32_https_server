@@ -48,6 +48,29 @@ bool HTTPServer::isRunning() {
   return _running;
 }
 
+int HTTPServer::anyConnections() {
+  /*
+  if(sizeof(_connections) > 0){
+    return true;
+  }
+  else{
+    return false;
+  }
+  */
+  int numConnections = 0;
+  bool hasOpenConnections = true;
+    while(hasOpenConnections) {
+      hasOpenConnections = false;
+      for(int i = 0; i < _maxConnections; i++) {
+        if (_connections[i] != NULL) {
+          numConnections++;
+        }
+      }
+    }     
+      delay(1);
+      return numConnections;
+}
+
 /**
  * This method stops the server
  */
