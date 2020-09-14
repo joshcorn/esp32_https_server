@@ -41,11 +41,13 @@ public:
   HTTPHeaders *getHTTPHeaders();
   std::string getBasicAuthUser();
   std::string getBasicAuthPassword();
+  std::string getBearerAuthToken();
   bool   isSecure();
   void setWebsocketHandler(WebsocketHandler *wsHandler);
 
 private:
   std::string decodeBasicAuthToken();
+  std::string decodeBearerAuthToken();
 
   ConnectionContext * _con;
 

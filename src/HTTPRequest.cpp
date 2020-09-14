@@ -140,6 +140,11 @@ std::string HTTPRequest::getBasicAuthPassword() {
   }
 }
 
+std::string HTTPRequest::getBearerAuthToken() {
+  std::string token = decodeBearerAuthToken();
+  return token;
+}
+
 std::string HTTPRequest::decodeBasicAuthToken() {
   std::string basicAuthString = getHeader("Authorization");
   // Get the length of the token
@@ -169,6 +174,25 @@ std::string HTTPRequest::decodeBasicAuthToken() {
     }
     std::string tokenRes = std::string((char*)bufOut, outputLength);
     delete[] bufOut;
+    return tokenRes;
+  }
+}
+
+std::string HTTPRequest::decodeBearerAuthToken() {
+  std::string bearerAuthString = getHeader("Authorization");
+  // Get the length of the token
+  size_t sourceLength = bearerAuthString.length();
+  // Only handle basic auth tokens
+  if (bearerAuthString.substr(0, 7) != "Bearer ") {
+    return std::string();
+  }
+  // If the token is too long, skip
+  if (sourceLength > 100) {
+    return std::string();
+  } else {
+    // For our purposes, we want to return the token in base64
+    size_t outputLength = sourceLength - 7;
+    std::string tokenRes = std::string(((char *)bearerAuthString.substr(7).c_str()), outputLength);
     return tokenRes;
   }
 }
